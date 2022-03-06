@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="100dp"
+        android:contentDescription="@string/add_new_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_white" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/search_edittext"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
@@ -20,6 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="48dp"
@@ -39,7 +52,5 @@
         app:layout_constraintTop_toBottomOf="@+id/search_edittext"
         tools:layout_editor_absoluteX="90dp" />
     </FrameLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

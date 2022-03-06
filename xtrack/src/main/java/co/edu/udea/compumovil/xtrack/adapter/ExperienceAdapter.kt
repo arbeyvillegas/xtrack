@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.R
 import co.edu.udea.compumovil.xtrack.model.Experience
@@ -32,7 +33,8 @@ class ExperienceAdapter (
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataSet[position]
         holder.experienceTitletextView.text = item.title
-        holder.experienceImageView.setImageResource(item.images[0])
+        @DrawableRes val imageResourceId: Int = item.images[0]
+        holder.experienceImageView.setImageResource(imageResourceId)
         holder.experienceDateTextView.text = item.date
         holder.experienceLocationTextView.text = item.city + ", " + item.location
     }

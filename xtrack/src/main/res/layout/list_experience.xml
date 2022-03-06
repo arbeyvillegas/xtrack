@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,6 +26,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="3dp"
             android:hint="title"
+            android:textSize="20dp"
             />
         <TextView
             android:id="@+id/experience_date"

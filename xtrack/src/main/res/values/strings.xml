@@ -2,4 +2,5 @@
     <string name="app_name">xTrack</string>
     <string name="inicio">Experiencias</string>
     <string name="search">Buscar</string>
+    <string name="add_new_button">Nuevo</string>
 </resources>
