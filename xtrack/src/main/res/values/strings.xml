@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">xtrack</string>
-    <string name="inicio">Inicio</string>
+    <string name="app_name">xTrack</string>
+    <string name="inicio">Experiencias</string>
+    <string name="search">Buscar</string>
 </resources>
