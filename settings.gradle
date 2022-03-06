@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "xtrack"
-include ':app'
+include ':xtrack'
