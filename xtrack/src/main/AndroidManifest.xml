@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Xtrack">
         <activity
-            android:name=".MainActivity"
+            android:name=".TakeSelectPhotoActivity"
             android:exported="false"
             android:label="@string/addPhoto"
             />
@@ -31,7 +31,7 @@
             android:exported="false"
             android:label="@string/inicio" />
         <activity
-            android:name=".TakeSelectPhotoActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
