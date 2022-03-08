@@ -20,10 +20,8 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        /*  Pasar a la activity
-            de Experince
+        /*  Pasar a la activity de Experince para crear nueva
          */
-
         val botonAddExperience = findViewById<FloatingActionButton>(R.id.botonAddExperience)
 
         botonAddExperience.setOnClickListener{
