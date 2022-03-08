@@ -1,8 +1,10 @@
 package co.edu.udea.compumovil.xtrack
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.ImageButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -44,5 +46,25 @@ class ExperienceActivity : AppCompatActivity() {
         }
 
 
+        /*  Guardar la fecha de un dataPicker a la caja de texto
+        */
+        val dateEditTextDate = findViewById<EditText>(R.id.dateEditTextDate)
+        dateEditTextDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
     }
+
+        /*  Mostrar dataPicker en un dialogo
+        */
+        private fun showDatePickerDialog() {
+            val newFragment = DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                // +1 because January is zero
+                val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+                val dateEditTextDate = findViewById<EditText>(R.id.dateEditTextDate)
+                dateEditTextDate.setText(selectedDate)
+            })
+
+            newFragment.show(supportFragmentManager, "datePicker")
+        }
 }
