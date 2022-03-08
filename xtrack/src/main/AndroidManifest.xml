@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.udea.compumovil.xtrack">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,10 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Xtrack">
         <activity
+            android:name=".ExperienceActivity"
+            android:exported="false" />
+        <activity
             android:name=".TakeSelectPhotoActivity"
             android:exported="false"
-            android:label="@string/addPhoto"
-            />
+            android:label="@string/addPhoto" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -39,7 +42,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
