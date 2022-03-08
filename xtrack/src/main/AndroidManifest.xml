@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="co.edu.udea.compumovil.xtrack" >
+    package="co.edu.udea.compumovil.xtrack">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -8,8 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Xtrack" >
-
+        android:theme="@style/Theme.Xtrack">
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:label="@string/addPhoto"
+            />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -18,20 +25,21 @@
         <activity
             android:name=".MapActivity"
             android:exported="false"
-            android:label="@string/map"/>
+            android:label="@string/map" />
         <activity
             android:name=".HomeActivity"
             android:exported="false"
             android:label="@string/inicio" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true" >
+            android:name=".TakeSelectPhotoActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
