@@ -6,32 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ExperienceActivity">
 
-    <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="0dp"
-        android:layout_height="53dp"
-        android:text="@string/title"
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="400dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:hint="@string/title"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/descriptionEditText"
-        android:layout_width="0dp"
-        android:layout_height="137dp"
+        android:layout_width="400dp"
+        android:layout_height="123dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="@string/description"
         android:inputType="textMultiLine"
-        android:text="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText" />
 
     <TextView
         android:id="@+id/cityTextView"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="70dp"
-        android:text="@string/city"
+        android:layout_marginStart="5dp"
+        android:hint="@string/city"
         app:layout_constraintEnd_toStartOf="@+id/mapaImageButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,19 +47,23 @@
 
     <ImageButton
         android:id="@+id/mapaImageButton"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="70dp"
+        android:layout_marginEnd="5dp"
         android:contentDescription="@string/maps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cityTextView"
         app:layout_constraintTop_toBottomOf="@+id/descriptionEditText"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
+
     <TextView
         android:id="@+id/locationTextView"
-        android:layout_width="0dp"
-        android:layout_height="68dp"
-        android:text="@string/location"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:hint="@string/location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,12 +71,18 @@
 
     <EditText
         android:id="@+id/dateEditTextDate"
-        android:layout_width="0dp"
-        android:layout_height="66dp"
+        android:layout_width="400dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:clickable="true"
         android:ems="10"
+        android:focusable="false"
+        android:hint="@string/addDate"
         android:inputType="date"
-        android:text="@string/date"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
 
@@ -94,11 +112,14 @@
 
     <GridView
         android:id="@+id/imagesGridView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="400dp"
+        android:layout_height="310dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateEditTextDate"
         app:layout_constraintVertical_bias="1.0" />

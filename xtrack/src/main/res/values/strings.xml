@@ -14,5 +14,6 @@
     <string name="save">Guardar</string>
     <string name="insert">Agregar</string>
     <string name="maps">Buscar</string>
+    <string name="addDate">Asignar Fecha Experiencia</string>
 
 </resources>
