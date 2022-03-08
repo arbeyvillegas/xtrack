@@ -22,5 +22,27 @@ class ExperienceActivity : AppCompatActivity() {
 
         }
 
+        /*  Pasar a la activity de busqueda de fotos para agregar
+         */
+
+        val camFloatingActionButton = findViewById<FloatingActionButton>(R.id.camFloatingActionButton)
+        camFloatingActionButton.setOnClickListener {
+
+            val intentAddPhoto = Intent(this, TakeSelectPhotoActivity::class.java)
+            startActivity(intentAddPhoto)
+        }
+
+
+        /*  Guardar experiencia y retorno a Home
+         */
+
+        val saveFloatingActionButton = findViewById<FloatingActionButton>(R.id.saveFloatingActionButton)
+        saveFloatingActionButton.setOnClickListener {
+
+            val intentSaveExperience = Intent(this, HomeActivity::class.java)
+            startActivity(intentSaveExperience)
+        }
+
+
     }
 }
