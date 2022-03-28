@@ -3,12 +3,18 @@ package co.edu.udea.compumovil.xtrack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.adapter.ExperienceAdapter
 import co.edu.udea.compumovil.xtrack.data.DataSource
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var _experienceAdapter: ExperienceAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -16,7 +22,8 @@ class HomeActivity : AppCompatActivity() {
         val experienceDataset = DataSource().loadExperiences()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerView.adapter = ExperienceAdapter(this, experienceDataset)
+        _experienceAdapter = ExperienceAdapter(experienceDataset)
+        recyclerView.adapter = _experienceAdapter
 
 
 
@@ -30,6 +37,17 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intentAddExperience)
 
         }
+
+        val textBuscar = findViewById<EditText>(R.id.search_edittext)
+
+        textBuscar.setOnKeyListener(View.OnKeyListener{ v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && keyCode == KeyEvent.ACTION_UP) {
+                _experienceAdapter.filter.filter(textBuscar.text)
+                return@OnKeyListener true
+            }
+            false
+
+        })
 
     }
 }

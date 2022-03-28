@@ -4,14 +4,23 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.lifecycle.ViewModelProvider
+import co.edu.udea.compumovil.xtrack.viewmodel.ExperienceViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ExperienceActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: ExperienceViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_experience)
+
+        Log.i("ExperienceActivity", "Called ViewModelProvider.get")
+        viewModel = ViewModelProvider(this).get(ExperienceViewModel::class.java)
 
         /*  Pasar a la activity de Mapa para agregar ubicacion
          */

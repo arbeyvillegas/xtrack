@@ -5,8 +5,8 @@ import co.edu.udea.compumovil.xtrack.model.Experience
 
 class DataSource {
 
-    fun loadExperiences(): List<Experience>{
-        return listOf(
+    fun loadExperiences(): ArrayList<Experience>{
+        return arrayListOf(
             Experience("Caminando en bello","2022-01-02 13:54","Bello",
                 "Parque la chinca", arrayOf<Int>(R.mipmap.im_bello_01
                                                         , R.mipmap.im_bello_02
