@@ -40,8 +40,8 @@ class HomeActivity : AppCompatActivity() {
 
         val textBuscar = findViewById<EditText>(R.id.search_edittext)
 
-        textBuscar.setOnKeyListener(View.OnKeyListener{ v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && keyCode == KeyEvent.ACTION_UP) {
+        textBuscar.setOnKeyListener(View.OnKeyListener{ _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 _experienceAdapter.filter.filter(textBuscar.text)
                 return@OnKeyListener true
             }

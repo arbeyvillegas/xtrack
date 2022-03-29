@@ -1,6 +1,6 @@
 package co.edu.udea.compumovil.xtrack.model
 
-data class Experience(
+data class ExperienceModel(
     val title: String,
     val date: String,
     val city: String,
@@ -11,7 +11,7 @@ data class Experience(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Experience
+        other as ExperienceModel
 
         if (title != other.title) return false
         if (date != other.date) return false

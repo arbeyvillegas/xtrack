@@ -1,6 +1,5 @@
 package co.edu.udea.compumovil.xtrack.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +10,17 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.R
-import co.edu.udea.compumovil.xtrack.model.Experience
+import co.edu.udea.compumovil.xtrack.model.ExperienceModel
 
 class ExperienceAdapter (
-    private val dataSet: ArrayList<Experience>
+        dataSet: ArrayList<ExperienceModel>
     ): RecyclerView.Adapter<ExperienceAdapter.ItemViewHolder>(), Filterable
 {
 
-    protected lateinit var _experiencesList: ArrayList<Experience>
-    protected lateinit var _experiencesListFiltered: ArrayList<Experience>
+    protected var _experiencesList: ArrayList<ExperienceModel>
+    protected var _experiencesListFiltered: ArrayList<ExperienceModel>
 
-    class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val experienceTitletextView: TextView = view.findViewById(R.id.experience_title)
         val experienceImageView: ImageView = view.findViewById(R.id.experience_image)
         val experienceDateTextView: TextView = view.findViewById(R.id.experience_date)
@@ -54,27 +53,26 @@ class ExperienceAdapter (
         return object : Filter() {
             override fun performFiltering(filter: CharSequence?): FilterResults {
                 val filterString = filter?.toString() ?: ""
+                var filteredList = ArrayList<ExperienceModel>()
                 if (filterString.isEmpty()) {
-                    _experiencesListFiltered = _experiencesList
+                    filteredList = _experiencesList
                 } else {
-                    var filteredList = ArrayList<Experience>()
                     _experiencesList.filter {
                         (it.city.contains(filter!!)) or
-                                (it.date.contains(filter!!)) or
-                                (it.title.contains(filter!!)) or
-                                (it.location.contains(filter!!))
+                                (it.date.contains(filter!!, true)) or
+                                (it.title.contains(filter!!, true)) or
+                                (it.location.contains(filter!!, true))
                     }
                         .forEach{filteredList.add(it)}
-                    _experiencesListFiltered = filteredList
                 }
-                return FilterResults().apply { values = _experiencesListFiltered }
+                return FilterResults().apply { values = filteredList }
             }
 
             override fun publishResults(filter: CharSequence?, results: FilterResults?) {
                 _experiencesListFiltered = if (results?.values == null)
                     ArrayList()
                 else
-                    results.values as ArrayList<Experience>
+                    results.values as ArrayList<ExperienceModel>
                 notifyDataSetChanged()
             }
         }
