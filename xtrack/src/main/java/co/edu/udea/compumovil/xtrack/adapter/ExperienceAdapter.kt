@@ -11,14 +11,15 @@ import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.R
 import co.edu.udea.compumovil.xtrack.model.ExperienceModel
+import co.edu.udea.compumovil.xtrack.viewmodel.ExperienceViewModel
 
 class ExperienceAdapter (
-        dataSet: ArrayList<ExperienceModel>
+        dataSet: ArrayList<ExperienceViewModel>
     ): RecyclerView.Adapter<ExperienceAdapter.ItemViewHolder>(), Filterable
 {
 
-    protected var _experiencesList: ArrayList<ExperienceModel>
-    protected var _experiencesListFiltered: ArrayList<ExperienceModel>
+    protected var _experiencesList: ArrayList<ExperienceViewModel>
+    protected var _experiencesListFiltered: ArrayList<ExperienceViewModel>
 
     class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val experienceTitletextView: TextView = view.findViewById(R.id.experience_title)
@@ -40,11 +41,11 @@ class ExperienceAdapter (
     }
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = _experiencesListFiltered[position]
-        holder.experienceTitletextView.text = item.title
+        holder.experienceTitletextView.text = item.title.value
         @DrawableRes val imageResourceId: Int = item.images[0]
         holder.experienceImageView.setImageResource(imageResourceId)
-        holder.experienceDateTextView.text = item.date
-        holder.experienceLocationTextView.text = item.city + ", " + item.location
+        holder.experienceDateTextView.text = item.experienceDate.value
+        holder.experienceLocationTextView.text = item.city.value + ", " + item.location.value
     }
 
     override fun getItemCount() = _experiencesListFiltered.size
@@ -53,15 +54,15 @@ class ExperienceAdapter (
         return object : Filter() {
             override fun performFiltering(filter: CharSequence?): FilterResults {
                 val filterString = filter?.toString() ?: ""
-                var filteredList = ArrayList<ExperienceModel>()
+                var filteredList = ArrayList<ExperienceViewModel>()
                 if (filterString.isEmpty()) {
                     filteredList = _experiencesList
                 } else {
                     _experiencesList.filter {
-                        (it.city.contains(filter!!)) or
-                                (it.date.contains(filter!!, true)) or
-                                (it.title.contains(filter!!, true)) or
-                                (it.location.contains(filter!!, true))
+                        (it.city.value!!.contains(filter!!)) or
+                                (it.experienceDate.value!!.contains(filter!!, true)) or
+                                (it.title.value!!.contains(filter!!, true)) or
+                                (it.location.value!!.contains(filter!!, true))
                     }
                         .forEach{filteredList.add(it)}
                 }
@@ -72,7 +73,7 @@ class ExperienceAdapter (
                 _experiencesListFiltered = if (results?.values == null)
                     ArrayList()
                 else
-                    results.values as ArrayList<ExperienceModel>
+                    results.values as ArrayList<ExperienceViewModel>
                 notifyDataSetChanged()
             }
         }

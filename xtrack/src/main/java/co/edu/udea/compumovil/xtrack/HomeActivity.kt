@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.adapter.ExperienceAdapter
 import co.edu.udea.compumovil.xtrack.data.DataSource
+import co.edu.udea.compumovil.xtrack.viewmodel.ExperienceViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
@@ -19,7 +20,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val experienceDataset = DataSource().loadExperiences()
+        val experienceDataset = ExperienceViewModel.getAllExperiences(this.applicationContext)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         _experienceAdapter = ExperienceAdapter(experienceDataset)
