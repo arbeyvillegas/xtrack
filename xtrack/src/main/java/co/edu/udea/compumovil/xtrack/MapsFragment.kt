@@ -1,19 +1,40 @@
 package co.edu.udea.compumovil.xtrack
 
-import androidx.fragment.app.Fragment
-
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Typeface
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
+import java.util.*
+
 
 class MapsFragment : Fragment() {
+
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    var location: LatLng? = null
+    private var marker: Marker? = null
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -25,14 +46,126 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        fusedLocationProviderClient =
+            context?.let { LocationServices.getFusedLocationProviderClient(it) }!!
+        checkLocation(googleMap)
+
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    private fun checkLocation(googleMap: GoogleMap) {
+
+        val task: Task<Location> = fusedLocationProviderClient.lastLocation
+
+        if (this.context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            }
+            != PackageManager.PERMISSION_GRANTED && this.context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it, android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+
+            }
+            != PackageManager.PERMISSION_GRANTED && this.context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+
+            }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                101
+            )
+
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                location = LatLng(it.latitude, it.longitude)
+                val currentLocation = location
+                currentLocation?.let { CameraUpdateFactory.newLatLng(it) }
+                    ?.let { googleMap.moveCamera(it) }
+                googleMap.setOnMapClickListener { point ->
+
+                    marker?.remove()
+                    val geocoder = Geocoder(this.context, Locale.getDefault())
+                    val addresses: List<Address> =
+                        geocoder.getFromLocation(point.latitude, point.longitude, 1)
+                    var address: Address = addresses[0];
+                    var cityName: String? = address.locality
+                    var stateName: String? = address.adminArea
+                    var countryName: String? = address.countryName
+                    var postalCode: String? = address.postalCode
+                    var thoroughfare: String? = address.thoroughfare
+                    var subThoroughfare: String? = address.subThoroughfare
+
+                    if (cityName == null) {
+                        cityName = ""
+                    }
+                    if (stateName == null) {
+                        stateName = ""
+                    }
+                    if (countryName == null) {
+                        countryName = "";
+                    }
+                    if (postalCode == null) {
+                        postalCode = "";
+                    }
+                    if (thoroughfare == null) {
+                        thoroughfare = "";
+                    }
+                    if (subThoroughfare == null) {
+                        subThoroughfare = "";
+                    }
+
+
+                    val markerOptions =
+                        MarkerOptions().position(LatLng(point.latitude, point.longitude))
+                            .title(countryName)
+                            .snippet(cityName + " " + stateName + " " + postalCode + "\n" + thoroughfare + " " + subThoroughfare)
+                            .icon(
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+                            )
+                    googleMap.setInfoWindowAdapter(object : InfoWindowAdapter {
+                        override fun getInfoWindow(arg0: Marker): View? {
+                            return null
+                        }
+
+                        override fun getInfoContents(marker: Marker): View? {
+                            val info = LinearLayout(context)
+                            info.orientation = LinearLayout.VERTICAL
+                            val title = TextView(context)
+                            title.setTextColor(Color.BLACK)
+                            title.gravity = Gravity.CENTER
+                            title.setTypeface(null, Typeface.BOLD)
+                            title.text = marker.title
+                            val snippet = TextView(context)
+                            snippet.setTextColor(Color.GRAY)
+                            snippet.text = marker.snippet
+                            info.addView(title)
+                            info.addView(snippet)
+                            return info
+                        }
+                    })
+
+
+                    marker = googleMap.addMarker(markerOptions)
+                    marker?.showInfoWindow()
+
+                }
+            }
+        }
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
