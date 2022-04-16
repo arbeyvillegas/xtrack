@@ -7,7 +7,7 @@
     tools:context=".TakeSelectPhotoActivity">
 
     <ImageView
-        android:id="@+id/takeSelectPhotoImageView"
+        android:id="@+id/imageViewSelectedPhoto"
         android:layout_width="310dp"
         android:layout_height="410dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,16 +17,39 @@
         app:srcCompat="@drawable/ic_photo" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/saveLocationButton"
+        android:id="@+id/buttonSavePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:contentDescription="@string/add_new_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonTakeFromGalery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/takeSelectPhotoImageView"
+        app:layout_constraintTop_toTopOf="@+id/buttonTakeFromGalery"
         app:layout_constraintVertical_bias="0.268"
         app:srcCompat="@drawable/ic_check" />
+
+    <Button
+        android:id="@+id/buttonTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/takePhoto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonTakeFromGalery"
+        app:layout_constraintHorizontal_bias="0.702"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewSelectedPhoto"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <Button
+        android:id="@+id/buttonTakeFromGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:text="@string/takeFromGalery"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonTakePhoto"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSavePhoto"
+        app:layout_constraintTop_toTopOf="@+id/buttonTakePhoto"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

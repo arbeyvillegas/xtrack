@@ -16,4 +16,8 @@
     <string name="maps">Buscar</string>
     <string name="addDate">Asignar Fecha Experiencia</string>
 
+    <string name="takeFromGalery">Seleccione</string>
+    <string name="takePhoto">Tomar</string>
+
+
 </resources>

@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.28" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/saveLocationButton"
+        android:id="@+id/buttonSavePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
