@@ -14,6 +14,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ExperienceViewModel(val context: Context) : ViewModel() {
+
+    private var _experienceId: Long = 0L
+    var experienceId: Long
+        get() = _experienceId
+        set(value) {
+            _experienceId = value
+        }
+
     private var _title = MutableLiveData<String>()
     var title: MutableLiveData<String>
         get() = _title
@@ -53,6 +61,13 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
     val images: ArrayList<Int>
         get() = _images
 
+    private var _updating: Boolean = false
+    var updating: Boolean
+        get() = _updating
+        set(value) {
+            _updating = value
+        }
+
 
     init {
         Log.i("ExperienceViewModel", "ExperienceViewModel created!")
@@ -66,14 +81,28 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
     fun saveExperience() {
         val db = XtrackDatabase.getInstance(context)
         val experienceEntity = ExperienceEntity(
-            0,
+            this._experienceId,
             this._title.value,
             this._experienceDate.value,
             this._city.value,
             this._location.value,
             this._description.value
         )
-        db.experienceDao.insert(experienceEntity)
+        if (this._updating)
+            db.experienceDao.update(experienceEntity)
+        else
+            db.experienceDao.insert(experienceEntity)
+    }
+
+    fun loadExperience(experienceId: Long) {
+        val db = XtrackDatabase.getInstance(context)
+        val experienceEntity = db.experienceDao.get(experienceId)
+        this.experienceId = experienceEntity!!.experienceId
+        this.title.value = experienceEntity!!.title
+        this.description.value = experienceEntity!!.description
+        this.city.value = experienceEntity!!.city
+        this.location.value = experienceEntity!!.location
+        this.experienceDate.value = experienceEntity!!.date
     }
 
     companion object {
@@ -85,6 +114,7 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
 
             for (experience in experiences) {
                 val viewModel = ExperienceViewModel(context);
+                viewModel.experienceId = experience.experienceId
                 viewModel.title.value = experience.title
                 viewModel.description.value = experience.description
                 viewModel.city.value = experience.city

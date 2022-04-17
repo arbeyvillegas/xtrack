@@ -29,6 +29,16 @@ class ExperienceActivity : AppCompatActivity() {
         viewModelFactory = ExperienceViewModelFactory(this.applicationContext)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ExperienceViewModel::class.java)
 
+        if (intent.extras!!.containsKey("ExperienceId")) {
+            val experienceId = intent.getLongExtra("ExperienceId", -1L)
+            if(experienceId != -1L) {
+                viewModel.loadExperience(experienceId)
+                viewModel.updating = true
+            } else {
+                viewModel.updating = false
+            }
+        }
+
         binding.viewModel = viewModel;
         val view = binding.root
         setContentView(view)

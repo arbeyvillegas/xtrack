@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import co.edu.udea.compumovil.xtrack.adapter.ExperienceAdapter
-import co.edu.udea.compumovil.xtrack.data.DataSource
 import co.edu.udea.compumovil.xtrack.viewmodel.ExperienceViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -35,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
         botonAddExperience.setOnClickListener{
 
             val intentAddExperience = Intent(this, ExperienceActivity::class.java)
+            intentAddExperience.putExtra("ExperienceId",-1L)
             startActivity(intentAddExperience)
 
         }
