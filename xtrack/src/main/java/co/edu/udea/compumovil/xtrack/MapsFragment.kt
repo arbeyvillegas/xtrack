@@ -15,6 +15,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import co.edu.udea.compumovil.xtrack.databinding.ActivityTakeSelectPhotoBinding
+import co.edu.udea.compumovil.xtrack.util.LocationInformation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,9 +34,11 @@ import java.util.*
 
 class MapsFragment : Fragment() {
 
+
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     var location: LatLng? = null
     private var marker: Marker? = null
+    var locationInformation = LocationInformation()
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -62,25 +66,38 @@ class MapsFragment : Fragment() {
                     android.Manifest.permission.ACCESS_FINE_LOCATION
                 )
             }
-            != PackageManager.PERMISSION_GRANTED && this.context?.let {
-                ActivityCompat.checkSelfPermission(
-                    it, android.Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-
-            }
-            != PackageManager.PERMISSION_GRANTED && this.context?.let {
-                ActivityCompat.checkSelfPermission(
-                    it, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-
-            }
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this.requireActivity(),
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 101
             )
-
+        }
+        if (this.context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION),
+                101
+            )
+        }
+        if (this.context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+            }
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                101
+            )
         }
         task.addOnSuccessListener {
             if (it != null) {
@@ -95,37 +112,38 @@ class MapsFragment : Fragment() {
                     val addresses: List<Address> =
                         geocoder.getFromLocation(point.latitude, point.longitude, 1)
                     var address: Address = addresses[0];
-                    var cityName: String? = address.locality
-                    var stateName: String? = address.adminArea
-                    var countryName: String? = address.countryName
-                    var postalCode: String? = address.postalCode
-                    var thoroughfare: String? = address.thoroughfare
-                    var subThoroughfare: String? = address.subThoroughfare
+                    locationInformation.cityName = address.locality
+                    locationInformation.stateName = address.adminArea
+                    locationInformation.countryName = address.countryName
+                    locationInformation.postalCode = address.postalCode
+                    locationInformation.thoroughfare = address.thoroughfare
+                    locationInformation.subThoroughfare = address.subThoroughfare
 
-                    if (cityName == null) {
-                        cityName = ""
+                    if (locationInformation.cityName == null) {
+                        locationInformation.cityName = ""
                     }
-                    if (stateName == null) {
-                        stateName = ""
+                    if (locationInformation.stateName == null) {
+                        locationInformation.stateName = ""
                     }
-                    if (countryName == null) {
-                        countryName = "";
+                    if (locationInformation.countryName == null) {
+                        locationInformation.countryName = "";
                     }
-                    if (postalCode == null) {
-                        postalCode = "";
+                    if (locationInformation.postalCode == null) {
+                        locationInformation.postalCode = "";
                     }
-                    if (thoroughfare == null) {
-                        thoroughfare = "";
+                    if (locationInformation.thoroughfare == null) {
+                        locationInformation.thoroughfare = "";
                     }
-                    if (subThoroughfare == null) {
-                        subThoroughfare = "";
+                    if (locationInformation.subThoroughfare == null) {
+                        locationInformation.subThoroughfare = "";
                     }
 
 
                     val markerOptions =
                         MarkerOptions().position(LatLng(point.latitude, point.longitude))
-                            .title(countryName)
-                            .snippet(cityName + " " + stateName + " " + postalCode + "\n" + thoroughfare + " " + subThoroughfare)
+                            .title(locationInformation.countryName)
+                            .snippet(locationInformation.cityName + " " + locationInformation.stateName + " " + locationInformation.postalCode + "\n"
+                                    + locationInformation.thoroughfare + " " + locationInformation.subThoroughfare)
                             .icon(
                                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                             )

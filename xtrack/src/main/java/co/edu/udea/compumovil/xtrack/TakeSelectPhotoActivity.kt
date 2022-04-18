@@ -132,7 +132,7 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
 
 
     private fun saveImage(context: Context, uri: Uri) {
-        val id = generateId()
+       /* val id = generateId()
         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
 
         try {
@@ -145,8 +145,9 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
             e.printStackTrace()
             Log.i(null, "Save file error!")
             return
-        }
+        }*/
 
+        // Llamar al intent con el imageURI
         var i=0;
 
 
