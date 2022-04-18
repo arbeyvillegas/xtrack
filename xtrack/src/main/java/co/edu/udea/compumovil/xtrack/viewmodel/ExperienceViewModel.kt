@@ -57,9 +57,16 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
             _experienceDate = value
         }
 
+
     private val _images = ArrayList<Int>()
     val images: ArrayList<Int>
         get() = _images
+
+    private val _photos = ArrayList<String>()
+    val photos: ArrayList<String>
+        get() = _photos
+
+
 
     private var _updating: Boolean = false
     var updating: Boolean
@@ -103,6 +110,10 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
         this.city.value = experienceEntity!!.city
         this.location.value = experienceEntity!!.location
         this.experienceDate.value = experienceEntity!!.date
+    }
+
+    fun getSeePhotosTitle(titlePart: String) : String {
+        return titlePart + " (" + _photos.size.toString() +")"
     }
 
     companion object {

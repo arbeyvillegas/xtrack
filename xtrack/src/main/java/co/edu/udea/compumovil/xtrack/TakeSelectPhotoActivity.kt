@@ -43,8 +43,20 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
     private fun setupListeners() {
         binding.buttonTakeFromGalery.setOnClickListener { pickPhotoFromGallery() }
         binding.buttonTakePhoto.setOnClickListener { takePhoto() }
-        binding.buttonSavePhoto.setOnClickListener { saveImage(this@TakeSelectPhotoActivity, imageURI) }
+        binding.buttonSavePhoto.setOnClickListener {
+            saveImage(this@TakeSelectPhotoActivity, imageURI)
+            sendResultToParentActivity(imageURI)
+        }
+    }
 
+    private fun sendResultToParentActivity(imageUri: Uri) {
+        val intent = Intent()
+        Log.d(this.javaClass.canonicalName,"Image uri (path): "+imageURI.path)
+        Log.d(this.javaClass.canonicalName,"Image uri (encodedpath): "+imageURI.encodedPath)
+        intent.putExtra("ImageUri", imageURI.path)
+
+        setResult(RESULT_OK, intent)
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

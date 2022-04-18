@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.databinding.DataBindingUtil
@@ -19,6 +20,8 @@ class ExperienceActivity : AppCompatActivity() {
     private lateinit var viewModel: ExperienceViewModel
     private lateinit var viewModelFactory: ExperienceViewModelFactory
     private lateinit var binding: ActivityExperienceBinding;
+    private val photoRequest: Int = 100
+    private val mapRequest: Int = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +34,14 @@ class ExperienceActivity : AppCompatActivity() {
 
         if (intent.extras!!.containsKey("ExperienceId")) {
             val experienceId = intent.getLongExtra("ExperienceId", -1L)
-            if(experienceId != -1L) {
+            if (experienceId != -1L) {
                 viewModel.loadExperience(experienceId)
                 viewModel.updating = true
             } else {
                 viewModel.updating = false
             }
         }
+        setSeePhotosTitle()
 
         binding.viewModel = viewModel;
         val view = binding.root
@@ -62,7 +66,8 @@ class ExperienceActivity : AppCompatActivity() {
         camFloatingActionButton.setOnClickListener {
 
             val intentAddPhoto = Intent(this, TakeSelectPhotoActivity::class.java)
-            startActivity(intentAddPhoto)
+            //startActivity(intentAddPhoto)
+            startActivityForResult(intentAddPhoto, photoRequest)
         }
 
 
@@ -85,6 +90,28 @@ class ExperienceActivity : AppCompatActivity() {
             showDatePickerDialog()
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == photoRequest) {
+                val imageUri = data!!.getStringExtra("ImageUri")
+                addPhoto(imageUri)
+            }
+        }
+    }
+
+    private fun addPhoto(imageUri: String?) {
+        if (imageUri != null) {
+            viewModel.photos.add(imageUri)
+            setSeePhotosTitle()
+        }
+    }
+
+    private fun setSeePhotosTitle () {
+        val button = findViewById<Button>(R.id.btnSeePhotos)
+        button.text = viewModel.getSeePhotosTitle(getString(R.string.seePhotos))
     }
 
 
