@@ -22,6 +22,7 @@ class ExperienceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityExperienceBinding;
     private val photoRequest: Int = 100
     private val mapRequest: Int = 101
+    private val carouselRequest: Int = 102
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,7 +124,7 @@ class ExperienceActivity : AppCompatActivity() {
         val photosUri = (viewModel.photos.map { item -> item.photoUri }).toTypedArray()
         val intentCarrousel = Intent(this, CarouselActivity::class.java)
         intentCarrousel.putExtra("ImagesUri", photosUri)
-        startActivityForResult(intentCarrousel, photoRequest)
+        startActivityForResult(intentCarrousel, carouselRequest)
     }
 
     /*  Mostrar dataPicker en un dialogo
