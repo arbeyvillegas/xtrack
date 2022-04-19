@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.xtrack
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
@@ -14,7 +15,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import co.edu.udea.compumovil.xtrack.util.LocationInformation
+import co.edu.udea.compumovil.xtrack.viewmodel.LocationInfoViewModel
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,6 +32,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationTokenSource
 import java.util.*
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 
 class MapsFragment : Fragment() {
@@ -36,7 +42,9 @@ class MapsFragment : Fragment() {
 
     var location: LatLng? = null
     private var marker: Marker? = null
-    var locationInformation = LocationInformation()
+    //var locationInformation = LocationInformation()
+
+    private val locationInformation: LocationInfoViewModel by activityViewModels();
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -118,38 +126,38 @@ class MapsFragment : Fragment() {
                     val addresses: List<Address> =
                         geocoder.getFromLocation(point.latitude, point.longitude, 1)
                     var address: Address = addresses[0];
-                    locationInformation.cityName = address.locality
-                    locationInformation.stateName = address.adminArea
-                    locationInformation.countryName = address.countryName
-                    locationInformation.postalCode = address.postalCode
-                    locationInformation.thoroughfare = address.thoroughfare
-                    locationInformation.subThoroughfare = address.subThoroughfare
+                    locationInformation.cityName.value = address.locality
+                    locationInformation.stateName.value = address.adminArea
+                    locationInformation.countryName.value = address.countryName
+                    locationInformation.postalCode.value = address.postalCode
+                    locationInformation.thoroughfare.value = address.thoroughfare
+                    locationInformation.subThoroughfare.value = address.subThoroughfare
 
-                    if (locationInformation.cityName == null) {
-                        locationInformation.cityName = ""
+                    if (locationInformation.cityName.value == null) {
+                        locationInformation.cityName.value = ""
                     }
-                    if (locationInformation.stateName == null) {
-                        locationInformation.stateName = ""
+                    if (locationInformation.stateName.value == null) {
+                        locationInformation.stateName.value = ""
                     }
-                    if (locationInformation.countryName == null) {
-                        locationInformation.countryName = "";
+                    if (locationInformation.countryName.value == null) {
+                        locationInformation.countryName.value = "";
                     }
-                    if (locationInformation.postalCode == null) {
-                        locationInformation.postalCode = "";
+                    if (locationInformation.postalCode.value == null) {
+                        locationInformation.postalCode.value = "";
                     }
-                    if (locationInformation.thoroughfare == null) {
-                        locationInformation.thoroughfare = "";
+                    if (locationInformation.thoroughfare.value == null) {
+                        locationInformation.thoroughfare.value = "";
                     }
-                    if (locationInformation.subThoroughfare == null) {
-                        locationInformation.subThoroughfare = "";
+                    if (locationInformation.subThoroughfare.value == null) {
+                        locationInformation.subThoroughfare.value = "";
                     }
 
 
                     val markerOptions =
                         MarkerOptions().position(LatLng(point.latitude, point.longitude))
-                            .title(locationInformation.countryName)
-                            .snippet(locationInformation.cityName + " " + locationInformation.stateName + " " + locationInformation.postalCode + "\n"
-                                    + locationInformation.thoroughfare + " " + locationInformation.subThoroughfare)
+                            .title(locationInformation.countryName.value)
+                            .snippet(locationInformation.cityName.value + " " + locationInformation.stateName.value + " " + locationInformation.postalCode.value + "\n"
+                                    + locationInformation.thoroughfare.value + " " + locationInformation.subThoroughfare.value)
                             .icon(
                                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
                             )

@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import co.edu.udea.compumovil.xtrack.databinding.ActivityExperienceBinding
@@ -47,6 +48,7 @@ class ExperienceActivity : AppCompatActivity() {
         binding.viewModel = viewModel;
         val view = binding.root
         setContentView(view)
+        binding.lifecycleOwner = this
 
         /*  Pasar a la activity de Mapa para agregar ubicacion
          */
@@ -55,7 +57,8 @@ class ExperienceActivity : AppCompatActivity() {
         mapaImageButton.setOnClickListener {
 
             val intentAddLocation = Intent(this, MapActivity::class.java)
-            startActivity(intentAddLocation)
+            //startActivity(intentAddLocation)
+            startActivityForResult(intentAddLocation, mapRequest)
 
         }
 
@@ -104,6 +107,9 @@ class ExperienceActivity : AppCompatActivity() {
             if (requestCode == photoRequest) {
                 val imageUri = data!!.getStringExtra("ImageUri")
                 addPhoto(imageUri)
+            } else if (requestCode == mapRequest) {
+                val city = data!!.getStringExtra("City")
+                viewModel.city.value = city;
             }
         }
     }
