@@ -8,32 +8,36 @@
 
     <ImageView
         android:id="@+id/imageViewPhoto"
-        android:layout_width="231dp"
-        android:layout_height="280dp"
+        android:layout_width="314dp"
+        android:layout_height="279dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.561"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252"
+        app:layout_constraintVertical_bias="0.258"
         app:srcCompat="@drawable/ic_photo"
         tools:srcCompat="@drawable/ic_photo" />
 
     <Button
         android:id="@+id/buttonPreviousPhoto"
-        android:layout_width="55dp"
+        android:layout_width="35dp"
         android:layout_height="253dp"
         android:text="Button"
+        app:icon="?android:attr/windowSplashScreenBackground"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewPhoto"
         app:layout_constraintEnd_toStartOf="@+id/imageViewPhoto"
+        app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewPhoto" />
+        app:layout_constraintTop_toTopOf="@+id/imageViewPhoto"
+        app:layout_constraintVertical_bias="0.74" />
 
     <Button
         android:id="@+id/buttonNextPhoto"
-        android:layout_width="52dp"
-        android:layout_height="265dp"
+        android:layout_width="35dp"
+        android:layout_height="255dp"
         android:text="Button"
+        app:icon="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewPhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewPhoto"
@@ -43,7 +47,8 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Fecha"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageViewPhoto"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,25 +61,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="TextView"
+        android:text="Ubicacion"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toTopOf="@+id/imageViewPhoto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="TextView"
+        android:text="Titulo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         app:layout_constraintBottom_toTopOf="@+id/imageViewPhoto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.124"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.067" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

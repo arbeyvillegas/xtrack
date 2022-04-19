@@ -18,6 +18,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import  co.edu.udea.compumovil.xtrack.databinding.ActivityTakeSelectPhotoBinding
+import co.edu.udea.compumovil.xtrack.util.RealPathUtils
+import com.anggrayudi.storage.extension.isMediaDocument
+import com.anggrayudi.storage.file.DocumentFileCompat
+import com.anggrayudi.storage.file.getAbsolutePath
+import com.anggrayudi.storage.media.MediaFile
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -51,9 +56,10 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
 
     private fun sendResultToParentActivity(imageUri: Uri) {
         val intent = Intent()
-        Log.d(this.javaClass.canonicalName,"Image uri (path): "+imageURI.path)
-        Log.d(this.javaClass.canonicalName,"Image uri (encodedpath): "+imageURI.encodedPath)
-        intent.putExtra("ImageUri", imageURI.path)
+        Log.d(this.javaClass.canonicalName, "Image uri (path): " + imageURI.path)
+        Log.d(this.javaClass.canonicalName, "Image uri (encodedpath): " + imageURI.encodedPath)
+        val path = RealPathUtils().getRealPathFromURI(imageURI,contentResolver)
+        intent.putExtra("ImageUri", path)
 
         setResult(RESULT_OK, intent)
         finish()
@@ -113,7 +119,7 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
                         val path: String = MediaStore.Images.Media.insertImage(
                             contentResolver,
                             bitmap,
-                            "Title",
+                            generateId()+"xtrack",
                             null
                         )
                         imageURI = Uri.parse(path);
@@ -144,24 +150,23 @@ class TakeSelectPhotoActivity : AppCompatActivity() {
 
 
     private fun saveImage(context: Context, uri: Uri) {
-       /* val id = generateId()
-        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        /* val id = generateId()
+         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
 
-        try {
-            val file = File(context.filesDir, id+"image.jpg");
-            val fOut = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
-            fOut.flush()
-            fOut.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.i(null, "Save file error!")
-            return
-        }*/
+         try {
+             val file = File(context.filesDir, id+"image.jpg");
+             val fOut = FileOutputStream(file)
+             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut)
+             fOut.flush()
+             fOut.close()
+         } catch (e: Exception) {
+             e.printStackTrace()
+             Log.i(null, "Save file error!")
+             return
+         }*/
 
         // Llamar al intent con el imageURI
-        var i=0;
-
+        var i = 0;
 
 
     }

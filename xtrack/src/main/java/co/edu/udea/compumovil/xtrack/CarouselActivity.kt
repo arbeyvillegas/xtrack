@@ -3,6 +3,7 @@ package co.edu.udea.compumovil.xtrack
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import co.edu.udea.compumovil.xtrack.databinding.ActivityCarouselBinding
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 class CarouselActivity : AppCompatActivity() {
@@ -26,16 +28,10 @@ class CarouselActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCarouselBinding.inflate(layoutInflater)
-
-
-
-        setContentView(binding.root)
-
-
         uris = ArrayList<Uri>()
-
         initializeUris()
         setupListeners()
+        setContentView(binding.root)
 
     }
 
@@ -44,14 +40,14 @@ class CarouselActivity : AppCompatActivity() {
 
          if (intent.extras!!.containsKey("ImagesUri")) {
             val experienceId = intent.getStringArrayExtra("ImagesUri")
-            var s1: String = Uri.decode(experienceId!![0])
-            uri = (Uri.parse(s1))
-             binding.imageViewPhoto.setImageURI(uri)
-
+             if (experienceId != null) {
+                 for (item in experienceId) {
+                     uris?.add(Uri.fromFile( File(item)))
+                 }
+             }
         }
 
-
-
+        binding.imageViewPhoto.setImageURI(uris?.get(0))
     }
 
 
