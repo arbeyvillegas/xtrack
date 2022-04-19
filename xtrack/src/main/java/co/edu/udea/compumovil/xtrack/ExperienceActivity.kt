@@ -90,6 +90,11 @@ class ExperienceActivity : AppCompatActivity() {
             showDatePickerDialog()
         }
 
+        val seePhotosButton = findViewById<Button>(R.id.btnSeePhotos)
+        seePhotosButton.setOnClickListener {
+            openCarrousel()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,6 +119,12 @@ class ExperienceActivity : AppCompatActivity() {
         button.text = viewModel.getSeePhotosTitle(getString(R.string.seePhotos))
     }
 
+    private fun openCarrousel() {
+        val photosUri = (viewModel.photos.map { item -> item.photoUri }).toTypedArray()
+        val intentCarrousel = Intent(this, CarouselActivity::class.java)
+        intentCarrousel.putExtra("ImagesUri", photosUri)
+        startActivityForResult(intentCarrousel, photoRequest)
+    }
 
     /*  Mostrar dataPicker en un dialogo
     */
