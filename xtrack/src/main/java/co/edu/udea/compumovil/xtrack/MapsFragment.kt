@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -15,9 +14,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import co.edu.udea.compumovil.xtrack.databinding.ActivityTakeSelectPhotoBinding
 import co.edu.udea.compumovil.xtrack.util.LocationInformation
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,14 +26,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.CancellationTokenSource
 import java.util.*
 
 
 class MapsFragment : Fragment() {
 
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
     var location: LatLng? = null
     private var marker: Marker? = null
     var locationInformation = LocationInformation()
@@ -50,15 +48,14 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        fusedLocationProviderClient =
-            context?.let { LocationServices.getFusedLocationProviderClient(it) }!!
+
         checkLocation(googleMap)
 
     }
 
     private fun checkLocation(googleMap: GoogleMap) {
 
-        val task: Task<Location> = fusedLocationProviderClient.lastLocation
+
 
         if (this.context?.let {
                 ActivityCompat.checkSelfPermission(
@@ -99,11 +96,20 @@ class MapsFragment : Fragment() {
                 101
             )
         }
+
+        var cancellationTokenSource = CancellationTokenSource()
+
+        val task = LocationServices
+            .getFusedLocationProviderClient(requireContext()).getCurrentLocation(
+                LocationRequest.PRIORITY_HIGH_ACCURACY,
+                cancellationTokenSource.token
+            )
         task.addOnSuccessListener {
             if (it != null) {
                 location = LatLng(it.latitude, it.longitude)
                 val currentLocation = location
-                currentLocation?.let { CameraUpdateFactory.newLatLng(it) }
+                val zoomLevel = 13.0f
+                currentLocation?.let { CameraUpdateFactory.newLatLngZoom(it,zoomLevel) }
                     ?.let { googleMap.moveCamera(it) }
                 googleMap.setOnMapClickListener { point ->
 
