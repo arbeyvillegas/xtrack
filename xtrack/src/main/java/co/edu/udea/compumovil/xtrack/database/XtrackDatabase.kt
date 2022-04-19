@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import co.edu.udea.compumovil.xtrack.model.ExperienceEntity
 import co.edu.udea.compumovil.xtrack.model.ExperiencePhotoEntity
 
-@Database(entities = [ExperienceEntity::class, ExperiencePhotoEntity::class], version = 1, exportSchema = false)
+@Database(entities = [ExperienceEntity::class, ExperiencePhotoEntity::class], version = 2, exportSchema = false)
 abstract class XtrackDatabase: RoomDatabase() {
     abstract val experienceDao: ExperienceDao
     abstract val experiencePhotoDao: ExperiencePhotoDao

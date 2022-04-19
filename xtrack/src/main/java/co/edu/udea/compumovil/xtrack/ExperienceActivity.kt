@@ -104,7 +104,7 @@ class ExperienceActivity : AppCompatActivity() {
 
     private fun addPhoto(imageUri: String?) {
         if (imageUri != null) {
-            viewModel.photos.add(imageUri)
+            viewModel.addPhoto(imageUri)
             setSeePhotosTitle()
         }
     }

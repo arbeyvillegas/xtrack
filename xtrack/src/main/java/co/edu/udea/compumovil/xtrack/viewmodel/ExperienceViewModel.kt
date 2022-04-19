@@ -9,6 +9,7 @@ import co.edu.udea.compumovil.xtrack.R
 import co.edu.udea.compumovil.xtrack.database.ExperienceDao
 import co.edu.udea.compumovil.xtrack.database.XtrackDatabase
 import co.edu.udea.compumovil.xtrack.model.ExperienceEntity
+import co.edu.udea.compumovil.xtrack.model.ExperiencePhotoEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,8 +63,8 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
     val images: ArrayList<Int>
         get() = _images
 
-    private val _photos = ArrayList<String>()
-    val photos: ArrayList<String>
+    private val _photos = ArrayList<ExperiencePhoto>()
+    val photos: ArrayList<ExperiencePhoto>
         get() = _photos
 
 
@@ -75,6 +76,10 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
             _updating = value
         }
 
+    data class ExperiencePhoto (
+        val idPhoto: Long = 0L,
+        var photoUri: String?
+    )
 
     init {
         Log.i("ExperienceViewModel", "ExperienceViewModel created!")
@@ -98,7 +103,20 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
         if (this._updating)
             db.experienceDao.update(experienceEntity)
         else
-            db.experienceDao.insert(experienceEntity)
+            this._experienceId= db.experienceDao.insert(experienceEntity)
+
+        savePhotos()
+    }
+
+    fun savePhotos() {
+        val db = XtrackDatabase.getInstance(context)
+        for (photo in photos) {
+            if(photo.idPhoto <= 0) {
+                val photoEntity = ExperiencePhotoEntity(0L, _experienceId,
+                    System.currentTimeMillis(), photo.photoUri!!, null)
+                db.experiencePhotoDao.insert(photoEntity)
+            }
+        }
     }
 
     fun loadExperience(experienceId: Long) {
@@ -110,10 +128,29 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
         this.city.value = experienceEntity!!.city
         this.location.value = experienceEntity!!.location
         this.experienceDate.value = experienceEntity!!.date
+
+        loadExperiencePhotos(experienceId)
+    }
+
+    private fun loadExperiencePhotos(experienceId: Long) {
+        val db = XtrackDatabase.getInstance(context)
+        val photoEntities = db.experiencePhotoDao.getExperiencePhotos(experienceId)
+        for (photoEntity in photoEntities) {
+            addPhoto(photoEntity)
+        }
     }
 
     fun getSeePhotosTitle(titlePart: String) : String {
         return titlePart + " (" + _photos.size.toString() +")"
+    }
+
+    fun addPhoto(photoUri: String)
+    {
+        _photos.add(ExperiencePhoto(0L, photoUri))
+    }
+
+    private fun addPhoto(photoEntity: ExperiencePhotoEntity) {
+        _photos.add(ExperiencePhoto(photoEntity.experiencePhotoId, photoEntity.photoUrl))
     }
 
     companion object {

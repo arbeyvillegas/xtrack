@@ -18,5 +18,5 @@ data class ExperiencePhotoEntity(
     @ColumnInfo(name = "PhotoUrl")
     var photoUrl: String,
     @ColumnInfo(name = "BreadCumbUrl")
-    var breadCumbUrl: String
+    var breadCumbUrl: String?
 )

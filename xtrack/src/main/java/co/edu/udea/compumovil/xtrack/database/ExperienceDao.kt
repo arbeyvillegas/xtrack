@@ -9,7 +9,7 @@ import co.edu.udea.compumovil.xtrack.model.ExperienceEntity
 @Dao
 interface ExperienceDao {
     @Insert
-    fun insert(experience: ExperienceEntity)
+    fun insert(experience: ExperienceEntity): Long
 
     @Update
     fun update(experience: ExperienceEntity)
