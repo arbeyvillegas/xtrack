@@ -170,6 +170,8 @@ class ExperienceViewModel(val context: Context) : ViewModel() {
                 viewModel.experienceDate.value = experience.date
                 viewModel.images.add(R.mipmap.im_bello_01)
 
+                viewModel.loadExperiencePhotos(viewModel.experienceId)
+
                 list.add(viewModel)
             }
             return list

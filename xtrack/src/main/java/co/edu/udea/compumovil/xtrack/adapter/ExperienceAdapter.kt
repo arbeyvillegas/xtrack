@@ -1,6 +1,7 @@
 package co.edu.udea.compumovil.xtrack.adapter
 
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import co.edu.udea.compumovil.xtrack.ExperienceActivity
 import co.edu.udea.compumovil.xtrack.MapActivity
 import co.edu.udea.compumovil.xtrack.R
 import co.edu.udea.compumovil.xtrack.viewmodel.ExperienceViewModel
+import java.io.File
 
 class ExperienceAdapter (
         dataSet: ArrayList<ExperienceViewModel>
@@ -33,8 +35,14 @@ class ExperienceAdapter (
 
         fun bind(position: Int, item: ExperienceViewModel) {
             experienceTitletextView.text = item.title.value
-            @DrawableRes val imageResourceId: Int = item.images[0]
-            experienceImageView.setImageResource(imageResourceId)
+            if (item.photos.size == 0) {
+                @DrawableRes val imageResourceId: Int = item.images[0]
+                experienceImageView.setImageResource(imageResourceId)
+            } else {
+                val imageUrl = item.photos[0].photoUri;
+                val imageUri = Uri.fromFile(File(imageUrl))
+                experienceImageView.setImageURI(imageUri)
+            }
             experienceDateTextView.text = item.experienceDate.value
             experienceLocationTextView.text = item.city.value + ", " + item.location.value
             experienceId = item.experienceId
